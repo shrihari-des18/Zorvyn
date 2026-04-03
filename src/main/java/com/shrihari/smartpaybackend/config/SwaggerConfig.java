@@ -27,7 +27,7 @@ public class SwaggerConfig {
                                 """)
                         .version("1.0.0")
                         .contact(new Contact()
-                                .name("Shrihari")
+                                .name("Shrihari Deshapande")
                                 .email("shriharideshpande901.com")))
                 .addSecurityItem(new SecurityRequirement()
                         .addList("Bearer Authentication"))

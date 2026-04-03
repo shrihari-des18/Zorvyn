@@ -18,7 +18,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-    public String register(String email, String phone, String password, String fullName) {
+    public String register(String email, String phone, String password, String fullName, Role role) {
 
         if ((email == null || email.isBlank()) &&
                 (phone == null || phone.isBlank())) {
@@ -38,7 +38,7 @@ public class AuthService {
                 .phoneNumber(phone)
                 .password(passwordEncoder.encode(password))
                 .fullName(fullName)
-                .role(Role.ANALYST)
+                .role(role != null ? role : Role.VIEWER)  // default to VIEWER if not provided
                 .createdAt(LocalDateTime.now())
                 .build();
 
@@ -57,6 +57,10 @@ public class AuthService {
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new ApiException("Invalid credentials", HttpStatus.FORBIDDEN);
+        }
+
+        if (!user.isActive()) {
+            throw new ApiException("Your account has been deactivated. Contact admin.", HttpStatus.FORBIDDEN);
         }
 
         return jwtService.generateToken(identifier);

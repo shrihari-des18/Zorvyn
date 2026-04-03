@@ -20,7 +20,8 @@ public class AuthController {
                 request.getEmail(),
                 request.getPhoneNumber(),
                 request.getPassword(),
-                request.getFullName()
+                request.getFullName(),
+                request.getRole()
         );
 
         return new ApiResponse<>(true, "User registered successfully", token);
@@ -43,6 +44,7 @@ public class AuthController {
         private String phoneNumber;
         private String password;
         private String fullName;
+        private Role role;
     }
 
     @Data
