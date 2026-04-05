@@ -33,4 +33,12 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
             @Param("to") LocalDateTime to,
             Pageable pageable
     );
+    @Query("SELECT e FROM Expense e WHERE e.group.id = :groupId " +
+            "AND e.isCancelled = false " +
+            "AND (LOWER(e.description) LIKE LOWER(CONCAT('%', :query, '%')) " +
+            "OR LOWER(e.category) LIKE LOWER(CONCAT('%', :query, '%')))")
+    List<Expense> searchExpenses(
+            @Param("groupId") Long groupId,
+            @Param("query") String query
+    );
 }

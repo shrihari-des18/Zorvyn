@@ -33,4 +33,13 @@ public interface PersonalExpenseRepository extends JpaRepository<PersonalExpense
             @Param("to") LocalDateTime to,
             Pageable pageable
     );
+
+    @Query("SELECT e FROM PersonalExpense e WHERE e.user.id = :userId " +
+            "AND (LOWER(e.description) LIKE LOWER(CONCAT('%', :query, '%')) " +
+            "OR LOWER(e.category) LIKE LOWER(CONCAT('%', :query, '%')) " +
+            "OR LOWER(e.note) LIKE LOWER(CONCAT('%', :query, '%')))")
+    List<PersonalExpense> searchPersonalExpenses(
+            @Param("userId") Long userId,
+            @Param("query") String query
+    );
 }

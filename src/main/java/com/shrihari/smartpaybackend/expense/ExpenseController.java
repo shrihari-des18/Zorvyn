@@ -1,6 +1,7 @@
 package com.shrihari.smartpaybackend.expense;
 
 import com.shrihari.smartpaybackend.common.ApiResponse;
+import com.shrihari.smartpaybackend.exception.ApiException;
 import com.shrihari.smartpaybackend.expense.dto.CreateExpenseRequest;
 import com.shrihari.smartpaybackend.expense.dto.DirectSplitRequest;
 import com.shrihari.smartpaybackend.expense.dto.EditExpenseRequest;
@@ -146,6 +147,36 @@ public class ExpenseController {
                 "Personal expenses fetched",
                 expenseService.getPersonalExpensesPaged(
                         category, fromDate, toDate, page, size)
+        );
+    }
+
+    @GetMapping("/group/{groupId}/search")
+    public ApiResponse<?> searchGroupExpenses(
+            @PathVariable Long groupId,
+            @RequestParam String q) {
+
+        if (q == null || q.isBlank()) {
+            throw new ApiException("Search query cannot be empty");
+        }
+
+        return new ApiResponse<>(
+                true,
+                "Search results",
+                expenseService.searchGroupExpenses(groupId, q)
+        );
+    }
+
+    @GetMapping("/personal/search")
+    public ApiResponse<?> searchPersonalExpenses(@RequestParam String q) {
+
+        if (q == null || q.isBlank()) {
+            throw new ApiException("Search query cannot be empty");
+        }
+
+        return new ApiResponse<>(
+                true,
+                "Search results",
+                expenseService.searchPersonalExpenses(q)
         );
     }
 

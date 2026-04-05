@@ -605,6 +605,34 @@ public class ExpenseService {
                 .findWithFilters(currentUser.getId(), category, from, to, Pageable.unpaged())
                 .getContent();
     }
+
+    public List<ExpenseListResponse> searchGroupExpenses(Long groupId, String query) {
+
+        authorizationService.validateGroupMember(groupId);
+
+        return expenseRepository.searchExpenses(groupId, query)
+                .stream()
+                .map(expense -> ExpenseListResponse.builder()
+                        .id(expense.getId())
+                        .description(expense.getDescription())
+                        .category(expense.getCategory())
+                        .totalAmount(expense.getTotalAmount())
+                        .groupName(expense.getGroup().getName())
+                        .isCancelled(expense.isCancelled())
+                        .paidByUserId(expense.getPaidBy().getId())
+                        .paidByName(expense.getPaidBy().getFullName())
+                        .createdAt(expense.getCreatedAt())
+                        .build())
+                .toList();
+    }
+
+    public List<PersonalExpense> searchPersonalExpenses(String query) {
+
+        User currentUser = authorizationService.getCurrentUser();
+
+        return personalExpenseRepository
+                .searchPersonalExpenses(currentUser.getId(), query);
+    }
     public PagedResponse<PersonalExpense> getPersonalExpensesPaged(
             String category,
             LocalDateTime from,

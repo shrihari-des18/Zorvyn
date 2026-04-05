@@ -60,8 +60,8 @@ Three roles with clearly enforced permissions:
 
 | Layer         | Technology                   |
 |---------------|------------------------------|
-| Language      | Java 17                      |
-| Framework     | Spring Boot 3                |
+| Language      | Java 21                      |
+| Framework     | Spring Boot 4                |
 | Database      | PostgreSQL (Neon Serverless) |
 | Cache         | Redis                        |
 | Auth          | JWT + Spring Security        |
@@ -125,13 +125,13 @@ mvn spring-boot:run
 ### 4. Verify
 
 ```bash
-curl http://localhost:8000/health
+curl https://zorvyn-wuxb.onrender.com/health
 ```
 
 ### 5. API Documentation
 
 ```
-http://localhost:8000/swagger-ui.html
+https://zorvyn-wuxb.onrender.com/swagger-ui.html
 ```
 
 ---
@@ -365,4 +365,4 @@ Schema is version controlled via Flyway migrations (V1 through V10).
 
 **API Version:** 2.0.0
 **Last Updated:** April 2026
-**Documentation:** `http://localhost:8000/swagger-ui.html`
+**Documentation:** `https://zorvyn-wuxb.onrender.com/swagger-ui.html`
